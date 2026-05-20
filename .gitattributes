@@ -1,13 +1,13 @@
 * text=auto eol=lf
 *.md text eol=lf
 
-# Binary assets (must not be line-ending converted)
-*.png binary
-*.ico binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.webp binary
-*.exe binary
-*.zip binary
-*.rar binary
+# Binary assets - never apply line-ending conversion
+*.png binary -text
+*.jpg binary -text
+*.jpeg binary -text
+*.ico binary -text
+*.gif binary -text
+*.webp binary -text
+*.exe binary -text
+*.zip binary -text
+*.rar binary -text

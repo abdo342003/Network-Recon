@@ -4,7 +4,7 @@
 
 **Author:** Abdellah ERRAOUI
 
-![Network Recon GUI](assets/screenshot.png)
+![Network Recon GUI](assets/screenshot.jpg)
 
 ---
 
