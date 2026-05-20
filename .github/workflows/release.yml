@@ -1,0 +1,113 @@
+name: Release Binaries
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller pillow
+
+      - name: Ensure icon exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "assets/app.ico")) {
+            python assets/create_placeholder_icon.py
+          }
+
+      - name: Build Windows EXE
+        run: |
+          python -m PyInstaller --noconfirm --onefile --windowed --icon assets/app.ico src/network_recon.py
+
+      - name: Package Windows artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release -Force | Out-Null
+          Compress-Archive -Path dist/network_recon.exe -DestinationPath release/network-recon-windows.zip -Force
+
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: network-recon-windows
+          path: release/network-recon-windows.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
+
+      - name: Build Linux binary
+        run: |
+          python -m PyInstaller --noconfirm --onefile --windowed src/network_recon.py
+
+      - name: Package Linux artifact
+        run: |
+          mkdir -p release
+          tar -czf release/network-recon-linux.tar.gz -C dist network_recon
+
+      - name: Upload Linux package
+        uses: actions/upload-artifact@v4
+        with:
+          name: network-recon-linux
+          path: release/network-recon-linux.tar.gz
+
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Generate checksums
+        shell: bash
+        run: |
+          cd release-artifacts
+          sha256sum network-recon-windows/network-recon-windows.zip > SHA256SUMS.txt
+          sha256sum network-recon-linux/network-recon-linux.tar.gz >> SHA256SUMS.txt
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-artifacts/network-recon-windows/network-recon-windows.zip
+            release-artifacts/network-recon-linux/network-recon-linux.tar.gz
+            release-artifacts/SHA256SUMS.txt
+          generate_release_notes: true
+          draft: false

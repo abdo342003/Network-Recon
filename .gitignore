@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.spec.bak
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# PyInstaller / installer output
+Output/
+*.exe
+*.rar
+*.zip
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs and local runtime data
+*.log
+*.tmp
+.cache/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/

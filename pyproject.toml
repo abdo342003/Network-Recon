@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pentesting-lab-tools"
+version = "0.2.0"
+description = "Cross-platform network discovery and web assessment tools for authorized lab environments."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Abdellah ERRAOUI" },
+]
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+]
+
+[project.scripts]
+network-recon = "network_recon:main"
+scan-export = "scan_export:main"
+report-generator = "report_generator:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = [
+    "network_recon",
+    "scan_export",
+    "report_generator",
+    "check_headers",
+    "check_tls",
+    "check_csrf",
+    "network_logger",
+    "dns_cache",
+    "html_report",
+    "scan_history",
+    "config_manager",
+    "security_framework",
+    "extended_discovery",
+]
