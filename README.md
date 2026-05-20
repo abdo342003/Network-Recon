@@ -40,7 +40,6 @@ NetworkRecon/
 |   +-- build_exe.sh
 |
 |-- assets/                   # Icons, screenshots, branding
-|-- docs/                     # Lab guides and report templates
 +-- .github/workflows/        # CI build and release
 ```
 
@@ -110,18 +109,6 @@ After install (`pip install -e .` in the venv):
 | `network-recon` | `src/network_recon.py` | GUI network recon |
 | `scan-export` | `src/scan_export.py` | Export scan results |
 | `report-generator` | `src/report_generator.py` | Aggregate checks into a report |
-
----
-
-## Lab documentation
-
-Assessment guides and templates in `docs/`:
-
-- [assessment_checklist.md](docs/assessment_checklist.md)
-- [auth_testing_methodology.md](docs/auth_testing_methodology.md)
-- [account_recovery_guidance.md](docs/account_recovery_guidance.md)
-- [recommended_tools.md](docs/recommended_tools.md)
-- [report_template.md](docs/report_template.md)
 
 ---
 
