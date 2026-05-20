@@ -4,9 +4,7 @@
 
 **Author:** Abdellah ERRAOUI
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/abdo342003/Network-Recon/main/assets/NetworkRecon.png" alt="Network Recon GUI" width="900"/>
-</p>
+![Network Recon GUI](assets/screenshot.png)
 
 ---
 
